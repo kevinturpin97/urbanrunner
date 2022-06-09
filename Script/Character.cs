@@ -4,32 +4,42 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [Header("Component")]
+    public float jumpForce;
+    public float moveSpeed;
+    int score = 0;
     Rigidbody2D rb;
-    [Header("Stat")]
-    [SerializeField]
-    float moveSpeed;
-    float camSpeed = 0.0f;
+    bool isGrounded = false;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Move()
-    {
-
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        gameObject.transform.position = new Vector2(transform.position.x + (h * moveSpeed),
-           transform.position.y + (v * moveSpeed));
-           Debug.Log(gameObject.transform.position[1]);
-    }
-
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (isGrounded == true) {
+                rb.AddForce(Vector2.up * jumpForce);
+                isGrounded = false;
+            }
+        }     
+        transform.position = transform.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, 0.0f) * moveSpeed * Time.deltaTime;
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("ground")) {
+            if (isGrounded == false) {
+                isGrounded = true;
+            }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.CompareTag("money")) {
+            Destroy(other.gameObject);
+            score++;
+            Debug.Log(score);
+        }
     }
 }
