@@ -4,28 +4,10 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    [Header("Component")]
-    Rigidbody2D rb;
-    [Header("Stat")]
-    [SerializeField]
-    float moveSpeed;
-    float x = 0.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    void Move()
-    {
-        x += moveSpeed;
-        rb.velocity = new Vector3(x * moveSpeed, 0);
-        rb.velocity.Normalize();
-    }
+    public Transform player;
 
     // Update is called once per frame
-    void Update()
-    {
-        Move();
+    void Update () {
+        transform.position = player.transform.position + new Vector3(5, (player.transform.position[1]*-1), -5);
     }
 }

@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     [Header("Stat")]
     [SerializeField]
     float moveSpeed;
+    float camSpeed = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,17 +18,13 @@ public class Character : MonoBehaviour
 
     void Move()
     {
-        float x = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.fixedDeltaTime;
-        float y = Input.GetAxisRaw("Vertical") * moveSpeed * Time.fixedDeltaTime;
 
-        if (Input.GetKey(KeyCode.Space)) {
-            y += y+10;
-        }
-        
-        rb.velocity = new Vector3(x, y);
-        rb.velocity.Normalize();
-        // cam.fieldOfView = 45;
-        Debug.Log(rb.position);
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        gameObject.transform.position = new Vector2(transform.position.x + (h * moveSpeed),
+           transform.position.y + (v * moveSpeed));
+           Debug.Log(gameObject.transform.position[1]);
     }
 
     // Update is called once per frame
