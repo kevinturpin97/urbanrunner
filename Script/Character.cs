@@ -9,18 +9,17 @@ public class Character : MonoBehaviour
     [Header("Stat")]
     [SerializeField]
     float moveSpeed;
+    float camSpeed = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        camera = GetComponent<Camera>();
     }
 
     void Move()
     {
-        float x = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.fixedDeltaTime;
-        float y = Input.GetAxisRaw("Vertical") * moveSpeed * Time.fixedDeltaTime;
 
+<<<<<<< HEAD
         if (Input.GetKey(KeyCode.Space)) {
             y += y+10;
         }
@@ -30,6 +29,14 @@ public class Character : MonoBehaviour
         GetComponent<Camera>().velocity = new Vector3(x, y);
         GetComponent<Camera>().velocity.Normalize();
         Debug.Log(rb.position);
+=======
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        gameObject.transform.position = new Vector2(transform.position.x + (h * moveSpeed),
+           transform.position.y + (v * moveSpeed));
+           Debug.Log(gameObject.transform.position[1]);
+>>>>>>> 978a0a98858828afb6218277d0353e6bbf103d97
     }
 
     // Update is called once per frame
