@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Camera : MonoBehaviour
 {
     [Header("Component")]
     Rigidbody2D rb;
     [Header("Stat")]
     [SerializeField]
     float moveSpeed;
+    float x = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,17 +18,9 @@ public class Character : MonoBehaviour
 
     void Move()
     {
-        float x = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.fixedDeltaTime;
-        float y = Input.GetAxisRaw("Vertical") * moveSpeed * Time.fixedDeltaTime;
-
-        if (Input.GetKey(KeyCode.Space)) {
-            y += y+10;
-        }
-        
-        rb.velocity = new Vector3(x, y);
+        x += moveSpeed;
+        rb.velocity = new Vector3(x * moveSpeed, 0);
         rb.velocity.Normalize();
-        // cam.fieldOfView = 45;
-        Debug.Log(rb.position);
     }
 
     // Update is called once per frame
