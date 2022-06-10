@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Character : MonoBehaviour
 {
@@ -24,8 +25,12 @@ public class Character : MonoBehaviour
                 rb.AddForce(Vector2.up * jumpForce);
                 isGrounded = false;
             }
-        }     
-        transform.position = transform.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, 0.0f) * moveSpeed * Time.deltaTime;
+        }
+
+        if (Input.GetAxisRaw("Horizontal") != 0.0f) {
+            transform.position = transform.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, 0.0f) * moveSpeed * Time.deltaTime;
+        }
+        
     }
     
     private void OnCollisionEnter2D(Collision2D other) {
@@ -35,11 +40,18 @@ public class Character : MonoBehaviour
             }
         }
     }
+    public TextMeshProUGUI textMesh;
+
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.CompareTag("money")) {
             Destroy(other.gameObject);
             score++;
-            Debug.Log(score);
         }
+        else if (other.gameObject.CompareTag("special")) {
+            Destroy(other.gameObject);
+            score += 10;
+        }
+
+        textMesh.text = "Score: " + score.ToString();
     }
 }
